@@ -1,0 +1,29 @@
+div {
+    overflow: hidden;
+}
+div p {
+    float: left;
+}
+div p:nth-child(2){
+    margin-left: 20px;
+    margin-right: 20px;
+}
+div.main{
+    width: 550px;
+    height: 900px;
+    margin: 0 auto;
+}
+div.left{
+    width: 150px;
+    height: 900px;
+    float: left;
+    background-color: blueviolet;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    padding-top: 20px;
+}
+div.right{
+    height: 900px;
+    float: right;
+}
