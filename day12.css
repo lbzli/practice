@@ -5,19 +5,18 @@
 ul {
     list-style: none;
 }
-body {
-    height: 900px;
+body,html {
+    width: 100%;
+    height: 100%;
 }
 .main {
-    width: 1190px;
-    height: 768px;
-    margin: 100px auto 0;
-    border: 1px solid #ccc;
+    width: 100%;
+    height: 100%;
 }
 
 
 .main .menu {
-    width: 75px;
+    width: 6.3022%;
     height: 100%;
     background-color: #1D2531;
     float: left;
@@ -70,6 +69,7 @@ body {
 
 
 .main .menu-content {
+    /* width: 15.798%; */
     width: 188px;
     height: 100%;
     background-color: #222C3C;
@@ -206,14 +206,16 @@ body {
 
 
 .main .chat {
-    width: 925px;
+    width: 77.9%;
+    min-width: 925px;
     height: 100%;
     background-color: cornsilk;
     float: left;
+    overflow: hidden;
 }
 .chat header {
     width: 100%;
-    height: 60px;
+    height: 7.812%;
     background-color: white;
     position: relative;
     line-height: 60px;
@@ -223,7 +225,7 @@ body {
     border-bottom: 1px solid #ccc;
 }
 .chat header .user {
-    width: 200px;
+    width: 21.621%;
     height: 90%;
     position: absolute;
     right: 0;
@@ -281,8 +283,9 @@ body {
 
 
 .chat-left{
-    width: 300px;
-    height: 708px;
+    width: 32.3%;
+    height: 92.1%;
+    min-height: 708px;
     background-color: white;
     float: left;
     border-right: 1px solid #ccc;
@@ -290,7 +293,7 @@ body {
 }
 .chat-left .search {
     width: 100%;
-    height: 51px;
+    height: 7.203%;
     position: relative;
 }
 .chat-left .search input {
@@ -315,46 +318,50 @@ body {
     background: url(./百度前端素材二/Chat/Search\ icon.png) no-repeat center;
     top: 0;
     bottom: 0;
-    right: 35px;
+    right: 11%;
     margin: auto 0;
     cursor: pointer;
 }
 
-
+.chat-left-content {
+    width: 100%;
+    height: 92.655%;
+}
 .chat-left-content ul {
     width: 100%;
-    height: 656px;
+    height: 100%;
     overflow: hidden;
 }
 .chat-left-content ul li {
     width: 100%;
-    height: 98px;
+    height: 13.841%;
     background-color: white;
     position: relative;
     border-top: 1px solid #ccc;
 }
 .chat-left-content .face {
-    width: 95%;
-    height: 55px;
+    width: 85%;
+    height: 50%;
     position: absolute;
     left: 0;
     right: 0;
     top: 5px;
-    margin-left: 15px;
+    margin: 0 auto;
     font-size: 12px;
 }
 .face img {
     display: inline-block;
-    width: 35px;
-    height: 35px;
+    width: 13.043%;
+    height: auto;
     margin-top: 10px;
     position: relative;
 }
 .face span {
     position: absolute;
-    line-height: 20px;
-    left: 45px;
-    font-size: 10px;
+    left: 17.043%;
+    line-height: 10px;
+    font-size: 12px;
+    margin-top: 1%;
 }
 .face span:nth-of-type(1) {
     top: 8px;
@@ -367,27 +374,26 @@ body {
 .face span:nth-of-type(3) {
     width: 10px;
     height: 10px;
-    left: 260px;
+    left: 96.362%;
     top: 8px;
 }
 
 .chat-left-content li p {
-    font-size: 10px;
+    font-size: 11px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     width: 84%;
-    height: 25px;
+    height: 28.584%;
     position: absolute;
-    bottom: 10px;
     left: 0;
     right: 0;
-    margin-left: 15px;
+    margin-left: 7%;
     cursor: pointer;
-    padding-right: 20px;
-
+    padding-right: 5%;
+    bottom: 13%;
 }
 
 .chat-left-content li .number::after {
@@ -401,19 +407,20 @@ body {
     top: 0;
     bottom: 0;
     margin: auto 0;
+    margin-right: 2%;
     text-align: center;
     color: white;
 }
 
 .chat-right {
-    width: 625px;
-    height: 708px;
+    width: 67.7%;
+    height: 92.655%;
     background-color: #289DF5;
     float: right;
 }
 .chat-right header {
     width: 100%;
-    height: 52px;
+    height: 7.3%;
     background-color: white;
     position: relative;
 }
@@ -441,7 +448,7 @@ body {
 .chat-right header .button-group {
     position: absolute;
     width: 300px;
-    height: 52px;
+    height: 100%;
     right: 0;
 }
 .chat-right .button-group ul {
@@ -513,8 +520,8 @@ body {
 
 
 .chat-right-content {
-    width: 626px;
-    height: 656px;
+    width: 100%;
+    height: 92.6%;
     background-color: white;
     position: relative;
     overflow: hidden;
@@ -524,6 +531,7 @@ body {
 }
 .conversation-item {
     padding-top: 15px;
+    margin-right: 3%;
 }
 .conversation-item img {
     float: left;
@@ -571,7 +579,7 @@ body {
 .chat-right-content .line-date::before {
     content: "";
     display: inline-block;
-    width: 265px;
+    width: 42.4%;
     height: 1px;
     background-color: #ccc;
     position: absolute;
@@ -584,7 +592,7 @@ body {
 .chat-right-content .line-date::after {
     content: "";
     display: inline-block;
-    width: 265px;
+    width: 42.4%;
     height: 1px;
     background-color: #ccc;
     position: absolute;
@@ -599,7 +607,7 @@ body {
     width: 90%;
     height: 50px;
     position: absolute;
-    bottom: 20px;
+    bottom: 7.2%;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -625,3 +633,6 @@ body {
     padding-left: 20px;
     box-sizing: border-box;
 }
+
+
+/* 注意在使用百分比布局的时候，如何使用百分比的那个盒子的父盒子中有一个使用height:auto或者是weight:auto的auto这个值，百分比是无法生效的 */
