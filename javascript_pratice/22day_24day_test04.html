@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        var tree = {
+            "id": 0,
+            "name": "root",
+            "left": {
+                "id": 1,
+                "name": "Simon",
+                "left": {
+                    "id": 3,
+                    "name": "Carl",
+                    "left": {
+                        "id": 7,
+                        "name": "Lee",
+                        "left": {
+                            "id": 11,
+                            "name": "Fate"
+                        }
+                    },
+                    "right": {
+                        "id": 8,
+                        "name": "Annie",
+                        "left": {
+                            "id": 12,
+                            "name": "Saber"
+                        }
+                    }
+                },
+                "right": {
+                    "id": 4,
+                    "name": "Tony",
+                    "left": {
+                        "id": 9,
+                        "name": "Candy"
+                    }
+                }
+            },
+            "right": {
+                "id": 2,
+                "name": "right",
+                "left": {
+                    "id": 5,
+                    "name": "Carl",
+                },
+                "right": {
+                    "id": 6,
+                    "name": "Carl",
+                    "right": {
+                        "id": 10,
+                        "name": "Kai"
+                    }
+                }
+            }
+        }
+
+        // 假设id和name均不会重复，根据输入name找到对应的id
+        let flag = true
+        function findIdByName(name) {
+            midSearchName(tree, name)
+        }
+
+        // 假设id和name均不会重复，根据输入id找到对应的name
+        function findNameById(id) {
+            midSearchId(tree, id)
+        }
+
+        // 把这个对象中所有的名字以“前序遍历”的方式全部输出到console中
+        function getListWithDLR() {
+            foreSearch(tree)
+        }
+
+        // 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中
+        function getListWithLDR() {
+            midSearch(tree)
+        }
+
+        // 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中
+        function getListWithLRD() {
+            aftertSearch(tree)
+        }
+
+
+        //这个是自己写的小的中序遍历的函数，并且一旦找到了目标就会不在查找
+        function midSearchName(root, name) {
+            if (root === null) return
+
+            if (root.left != null && flag) midSearchName(root.left, name)
+            if (root.name === name) {
+                console.log("找到了：" + name + "对应的id：" + root.id)
+                flag = false
+                return
+            }
+            console.log(root.id + "  " + root.name)
+            if (root.right != null && flag) midSearchName(root.right, name)
+        }
+        function midSearchId(root, id) {
+            if (root === null) return
+
+            if (root.left != null && flag) midSearchId(root.left, id)
+            if (root.id === id) {
+                console.log("找到了：" + id + "对应的name：" + root.name)
+                flag = false
+                return
+            }
+            console.log(root.id + "  " + root.name)
+            if (root.right != null && flag) midSearchId(root.right, id)
+        }
+
+        //这个函数实现前序遍历
+        function foreSearch(root) {
+            if(root === null) return
+            console.log("这个对象的name是："+root.name)
+            if(root.left != null) foreSearch(root.left)
+            if(root.right != null) foreSearch(root.right)
+        }
+        //这个函数实现了中序遍历
+        function midSearch(root) {
+            if(root === null) return
+            if(root.left != null) midSearch(root.leftA)
+            console.log("这个对象的name是："+root.name)
+            if(root.right != null) midSearch(root.right)
+        }
+        //这个函数实现了后序遍历
+        function aftertSearch(root) {
+            if(root === null) return
+            if(root.left != null) aftertSearch(root.left)
+            if(root.right != null) aftertSearch(root.right)
+            console.log("找到了这个对象的name："+root.name)
+        }
+
+    </script>
+</body>
+
+</html>

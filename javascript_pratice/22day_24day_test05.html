@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input id="queue-input" type="text">
+    <p id="queue-cont">队列内容：apple-&gt;pear</p>
+    <button id="in-btn">入队</button>
+    <button id="out-btn">出队</button>
+    <button id="font-btn">打印队头元素内容</button>
+    <button id="empty-btn">判断队列是否为空</button>
+    
+    <script>
+
+        var queue = ["apple", "pear"];
+        let input = document.querySelector("#queue-input")
+        let p = document.querySelector("p")
+        let buttonList = document.querySelectorAll("button")
+
+        buttonList[0].addEventListener("click", function () {
+            if(input.value!="")queue.unshift(input.value)
+            p.innerHTML ="队列的内容为："+ queue.join("->")
+            input.value = ""
+        })
+        buttonList[1].addEventListener("click", function () {
+            queue.pop()
+            p.innerHTML ="队列的内容为："+ queue.join("->")
+        })
+        buttonList[2].addEventListener("click", function () {
+            p.innerHTML ="对头的元素的内容是："+ queue[queue.length-1]
+        })
+        buttonList[3].addEventListener("click", function () {
+            p.innerHTML = queue.length==0?"队列是空的":"队列不是空的"
+        })
+    </script>
+</body>
+</html>
