@@ -63,6 +63,31 @@
         function dataJudgment(year) {
             return (year % 4 === 0 && year % 100 != 0) || (year % 400 === 0)
         }
+
+        function computeTime() {
+            selectTieme = new Date(`${selectlist[0].value}/${selectlist[1].value}/${selectlist[2].value} ${selectlist[3].value}:${selectlist[4].value}:${selectlist[5].value}`)
+            nowdayTime = new Date()
+            let result = selectTieme - nowdayTime, resultTime
+            result > 0 ? "" : flag = false
+            resultTime = new Date(Math.abs(result))
+            return resultTime
+        }
+        function setText() {
+            flag = true
+            let day, hour, minute, second
+            let time = computeTime().getTime() / 1000
+            // day = Math.floor(time / 24 * 60 * 60 * 1000)
+            // hour = Math.floor((time % 24 * 60 * 60 * 1000) / (60 * 60 * 1000))
+            // minute = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) / 60 * 1000))
+            // second = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 * 1000))
+            // msecond =Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 % 1000))
+            day = Math.floor(time / (24 * 60 * 60))
+            hour = Math.floor(time % (24 * 60 * 60) / (60 * 60))
+            minute = Math.floor(time % (24 * 60 * 60) % (60 * 60) / 60);
+            second = Math.floor(time % (24 * 60 * 60) % (60 * 60) % 60);
+            str = flag ? `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 还有${day}天${hour}小时${minute}分${second}秒` : `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 已经过去${day}天${hour}小时${minute}分${second}秒`
+            p_result.innerHTML = str
+        }
         function init() {
             // set year
             let str = ""
@@ -79,27 +104,27 @@
             // // set day
             str = ""
             if (dataJudgment(selectlist[0].value)) {
-                for (let index = 1; index <= monthday[selectlist[1].value-1] ; index++) {
+                for (let index = 1; index <= monthday[selectlist[1].value - 1]; index++) {
                     str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
                 }
-                selectlist[2].innerHTML = str 
-            }else {
-                for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                selectlist[2].innerHTML = str
+            } else {
+                for (let index = 1; index <= monthday[selectlist[1].value - 1]; index++) {
                     str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
                 }
                 selectlist[2].innerHTML = str
             }
-            
+
             selectlist[1].addEventListener("change", function () {
                 // set day
                 str = ""
-                if (dataJudgment(selectlist[0].value)&&this.value === "2") {
-                    for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                if (dataJudgment(selectlist[0].value) && this.value === "2") {
+                    for (let index = 1; index <= monthday[selectlist[1].value - 1]; index++) {
                         str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
                     }
                     selectlist[2].innerHTML = str + ` <option value="29">29</option>`
                 } else {
-                    for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                    for (let index = 1; index <= monthday[selectlist[1].value - 1]; index++) {
                         str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
                     }
                     selectlist[2].innerHTML = str
@@ -125,37 +150,15 @@
                 str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
             }
             selectlist[5].innerHTML = str
+
+            // 为每个select注册change函数
+            for (let index = 0; index < selectlist.length; index++) {
+                const element = selectlist[index]
+                element.addEventListener("change", setText)
+            }
         }
         init()
-        function computeTime() {
-            selectTieme = new Date(`${selectlist[0].value}/${selectlist[1].value}/${selectlist[2].value} ${selectlist[3].value}:${selectlist[4].value}:${selectlist[5].value}`)
-            nowdayTime = new Date()
-            let result = selectTieme - nowdayTime, resultTime
-            result > 0 ? "" : flag = false
-            resultTime = new Date(Math.abs(result))
-            return resultTime
-        }
-        function setText() {
-            flag = true
-            let day, hour, minute, second
-            let time = computeTime().getTime() / 1000
-            // day = Math.floor(time / 24 * 60 * 60 * 1000)
-            // hour = Math.floor((time % 24 * 60 * 60 * 1000) / (60 * 60 * 1000))
-            // minute = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) / 60 * 1000))
-            // second = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 * 1000))
-            // msecond =Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 % 1000))
-            day = Math.floor(time / (24 * 60 * 60))
-            hour = Math.floor(time % (24 * 60 * 60) / (60 * 60))
-            minute = Math.floor(time % (24 * 60 * 60) % (60 * 60) / 60);
-            second = Math.floor(time % (24 * 60 * 60) % (60 * 60) % 60);
-            str = flag ? `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 还有${day}天${hour}小时${minute}分${second}秒` : `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 已经过去${day}天${hour}小时${minute}分${second}秒`
-            p_result.innerHTML = str
-        }
-
-        for (let index = 0; index < selectlist.length; index++) {
-            const element = selectlist[index]
-            element.addEventListener("change", setText)
-        }
+        
 
     </script>
 </body>
