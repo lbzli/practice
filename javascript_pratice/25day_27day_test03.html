@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <select id="year-select">
+        <option value="2000">2000</option>
+        <option value="2001">2001</option>
+        <option value="2002">2002</option>
+        ……
+        <option value="2032">2002</option>
+    </select>
+
+    <select id="month-select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        ……
+        <option value="12">12</option>
+    </select>
+
+    <select id="day-select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        ……
+        <option value="31">31</option>
+    </select>
+
+    <select id="hour-select">
+        <option value="0">00</option>
+        <option value="1">01</option>
+        ……
+        <option value="23">23</option>
+    </select>
+
+    <select id="minite-select">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        ……
+        <option>59</option>
+    </select>
+
+    <select id="second-select">
+        <option value="0">0</option>
+        <option value="1">1</option>
+        ……
+        <option>59</option>
+    </select>
+
+    <p id="result-wrapper">现在距离 2001年1月1日星期X HH:MM:SS 还有 X 天 X 小时 X 分 X 秒</p>
+
+    <script>
+        let selectlist = document.querySelectorAll("select")
+        let p_result = document.querySelector("#result-wrapper")
+        let flag, str
+        let selectTieme, nowdayTime, resultTime
+        let monthday = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        function dataJudgment(year) {
+            return (year % 4 === 0 && year % 100 != 0) || (year % 400 === 0)
+        }
+        function init() {
+            // set year
+            let str = ""
+            for (let index = 2000; index < 2032; index++) {
+                str += `<option value="${index}">${index}</option>`
+            }
+            selectlist[0].innerHTML = str
+            // set month
+            str = ""
+            for (let index = 1; index < 13; index++) {
+                str += `<option value="${index}">${index}</option>`
+            }
+            selectlist[1].innerHTML = str
+            // // set day
+            str = ""
+            if (dataJudgment(selectlist[0].value)) {
+                for (let index = 1; index <= monthday[selectlist[1].value-1] ; index++) {
+                    str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+                }
+                selectlist[2].innerHTML = str 
+            }else {
+                for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                    str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+                }
+                selectlist[2].innerHTML = str
+            }
+            
+            selectlist[1].addEventListener("change", function () {
+                // set day
+                str = ""
+                if (dataJudgment(selectlist[0].value)&&this.value === "2") {
+                    for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                        str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+                    }
+                    selectlist[2].innerHTML = str + ` <option value="29">29</option>`
+                } else {
+                    for (let index = 1; index <= monthday[selectlist[1].value-1]; index++) {
+                        str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+                    }
+                    selectlist[2].innerHTML = str
+                }
+            })
+
+            // set hour
+            str = ""
+            for (let index = 0; index < 24; index++) {
+                str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+            }
+            selectlist[3].innerHTML = str
+            // set minute
+            str = ""
+            for (let index = 0; index < 60; index++) {
+                str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+            }
+            selectlist[4].innerHTML = str
+
+            // set second
+            str = ""
+            for (let index = 0; index < 60; index++) {
+                str += `<option value="${index}">${index > 9 ? index : "0" + index}</option>`
+            }
+            selectlist[5].innerHTML = str
+        }
+        init()
+        function computeTime() {
+            selectTieme = new Date(`${selectlist[0].value}/${selectlist[1].value}/${selectlist[2].value} ${selectlist[3].value}:${selectlist[4].value}:${selectlist[5].value}`)
+            nowdayTime = new Date()
+            let result = selectTieme - nowdayTime, resultTime
+            result > 0 ? "" : flag = false
+            resultTime = new Date(Math.abs(result))
+            return resultTime
+        }
+        function setText() {
+            flag = true
+            let day, hour, minute, second
+            let time = computeTime().getTime() / 1000
+            // day = Math.floor(time / 24 * 60 * 60 * 1000)
+            // hour = Math.floor((time % 24 * 60 * 60 * 1000) / (60 * 60 * 1000))
+            // minute = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) / 60 * 1000))
+            // second = Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 * 1000))
+            // msecond =Math.floor(((time % 24 * 60 * 60 * 1000) % (60 * 60 * 1000) % 60 % 1000))
+            day = Math.floor(time / (24 * 60 * 60))
+            hour = Math.floor(time % (24 * 60 * 60) / (60 * 60))
+            minute = Math.floor(time % (24 * 60 * 60) % (60 * 60) / 60);
+            second = Math.floor(time % (24 * 60 * 60) % (60 * 60) % 60);
+            str = flag ? `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 还有${day}天${hour}小时${minute}分${second}秒` : `现在距离：${selectlist[0].value}年${selectlist[1].value}月${selectlist[2].value}日 ${selectlist[3].value}时${selectlist[4].value}分${selectlist[5].value}秒 已经过去${day}天${hour}小时${minute}分${second}秒`
+            p_result.innerHTML = str
+        }
+
+        for (let index = 0; index < selectlist.length; index++) {
+            const element = selectlist[index]
+            element.addEventListener("change", setText)
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p></p>
+
+    <script>
+        let p = document.querySelector("p")
+        let today = new Date()
+        let year, moth, date, hour, minute, second
+        let arr = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
+        let arr2 = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let flag
+        function getWeek(date) {
+            return arr[date.getDay()]
+        }
+        function getWeek2(date) {
+            return arr2[date.getDay()]
+        }
+        function addZore(num) {
+            return num > 9 ? num : "0" + num
+        }
+        function addHour(hour) {
+            if(hour>12) {
+                hour-=12
+                flag = "PM"
+            }else {
+                flag = "AM"
+            }
+            return hour > 9 ? hour : "0" + hour
+        }
+        function format(year, moth, date, hour, minute, second) {
+            return year + "年" + addZore(moth) + "月" + addZore(date) + "日" + getWeek(today) + "的 " + addZore(hour) + ":" + addZore(minute) + ":" + addZore(second)
+        }
+        function format2(year, moth, date, hour, minute, second) {
+            return year + "-" + addZore(moth) + "-" + addZore(date) + " " + getWeek2(today) + " " + addHour(hour) + ":" + addZore(minute) + ":" + addZore(second) +" "+ flag
+        }
+        setInterval(() => {
+            today = new Date()
+            year = today.getFullYear()
+            moth = today.getMonth() + 1
+            date = today.getDate()
+            hour = today.getHours()
+            minute = today.getMinutes()
+            second = today.getSeconds()
+
+            //console.log(format(year, moth, date, hour, minute, second))
+            p.innerHTML = format(year, moth, date, hour, minute, second) + "\t"
+            p.innerHTML += "格式二："+ format2(year, moth, date, hour, minute, second)
+            //console.log(format2(year, moth, date, hour, minute, second))
+        }, 1000);
+
+
+
+    </script>
+
+
+</body>
+
+</html>
