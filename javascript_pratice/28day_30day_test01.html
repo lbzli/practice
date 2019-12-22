@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        ul {
+            list-style: none;
+        }
+
+        .active {
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <input id="email-input" type="text" autofocus="autofocus">
+
+        <ul id="email-sug-wrapper" class="email-sug"></ul>
+    </div>
+
+    <script>
+        var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net']
+        let input = document.querySelector("#email-input")
+        let emailBox = document.querySelector("#email-sug-wrapper")
+
+
+        input.onkeyup = function (e) {
+            //注意找正确的查找那个元素，关键是类名
+            let liDom = document.querySelector("#email-sug-wrapper li.active")      
+            if (e.key === "ArrowUp" && input.value != "") {
+                if (liDom.previousElementSibling) {
+                    liDom.classList.remove("active")
+                    liDom.previousElementSibling.classList.add("active")
+                } else {
+                    liDom.classList.remove("active")
+                    liDom.parentElement.children[postfixList.length-1].classList.add("active")
+                }
+            } else if (e.key === "ArrowDown" && input.value != "") {
+                if (liDom.nextElementSibling) {
+                    liDom.classList.remove("active")
+                    liDom.nextElementSibling.classList.add("active")
+                } else {
+                    liDom.classList.remove("active")
+                    liDom.parentElement.children[0].classList.add("active")
+                }
+            }else if (e.key === "Enter"  && input.value != "") {
+                this.value = liDom.innerHTML
+                hidenemailBox()
+            }else if (e.key === "Escape" && input.value != "") {
+                input.select()
+            }else {
+                //必需把盒子内容的逻辑放到这里防止重新渲染，导致active的那个盒子一直是第一个
+
+                // 获取用户输入，生成提示框中的提示内容，将提示内容添加到email - sug - wrapper中
+                addpromptcontent()
+                // 控制email - sug - wrapper的显示 / 隐藏状态
+                stateSwitch()
+            }
+        
+
+        }
+
+        function getInput() {
+            // 拿到input输入框的输入内容trim后返回
+            let str = input.value.trim()
+            return str
+        }
+
+        function promptContent() {
+            let inputcontent = getInput()
+            inputcontent = htmlEncode(inputcontent)
+            let addr = inputcontent.split("@")[1]
+            if (inputcontent.indexOf("@") != 1) {
+                inputcontent = inputcontent.replace("@", "")
+            }
+            inputcontent += "@"
+            let str = ""
+            for (let index = 0; index < postfixList.length; index++) {
+                const element = postfixList[index];
+                if (element.indexOf(addr) != -1)
+                    str += `<li>${inputcontent + element}</li>`
+            }
+            if (str.length == 0) {
+                for (let index = 0; index < postfixList.length; index++) {
+                    const element = postfixList[index];
+                    if (index === 0) {
+                        str += `<li class="active">${inputcontent + element}</li>`
+                    } else {
+                        str += `<li>${inputcontent + element}</li>`
+                    }
+
+                }
+            }
+            return str
+        }
+
+        function addpromptcontent() {
+            // 获取生成提示框中的提示内容
+            let html = promptContent()
+            // 将内容添加到email - sug - wrapper中
+            emailBox.innerHTML = html
+
+            let liDom = document.querySelectorAll("#email-sug-wrapper li")
+            for (const key in liDom) {
+                if (liDom.hasOwnProperty(key)) {
+                    const element = liDom[key];
+                    element.onmouseenter = function () {
+                        this.classList.add("active")
+                    }
+                    element.onmouseleave = function () {
+                        this.classList.remove("active")
+                    }
+                    element.onclick = function () {
+                        input.value = this.innerText
+                        hidenemailBox()
+                        input.focus()
+                    }
+                }
+            }
+        }
+
+        function stateSwitch() {
+            if (input.value === "") {
+                hidenemailBox()
+            } else {
+                dispalyemailBox()
+            }
+        }
+
+        function hidenemailBox() {
+            emailBox.style.display = "none"
+        }
+
+        function dispalyemailBox() {
+            emailBox.style.display = "block"
+        }
+        function htmlEncode(text) {
+            let temp = document.createElement("div")
+            temp.innerText = text
+            let output = temp.innerHTML
+            temp = null
+            return output
+        }
+    </script>
+</body>
+
+</html>
