@@ -60,7 +60,7 @@ let sourceData = [{
 let divDom = document.querySelector("#table-wrapper")
 let regionDom = document.querySelector("#region-radio-wrapper")
 let productDom = document.querySelector("#product-radio-wrapper")
-let arr,arr2
+let arr, arr2
 function createChckBox(parentDom, data, category) {
     let checkboxstr = `<input type="checkbox" checkbox-type="all">全选`
     let arr = []
@@ -108,9 +108,42 @@ function createChckBox(parentDom, data, category) {
             e.target.checked = flag2 ? e.target.checked : true
         }
         divDom.innerHTML = createTable(getData())
+
+        let trDomList = document.querySelectorAll("#table-wrapper tr")
+        for (const key in trDomList) {
+            if (trDomList.hasOwnProperty(key)) {
+                const element = trDomList[key];
+                element.addEventListener("mouseover", function (e) {
+
+                    if (this.getAttribute("data-region") != null) {
+                        console.log(getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product")))
+                        let datalist = getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product"))
+                     console.log("这个是datalist"+datalist)
+                        // console.log(document.querySelector("#mysvg"))
+                        lineChart.setData(document.querySelector("#tutorial"), datalist,this.getAttribute("data-region")+" "+this.getAttribute("data-product"))
+                        barChart.setData(document.querySelector("#mysvg"), datalist)
+
+                        
+                    }
+                })
+            }
+        }
+
     })
 
 
+}
+function getDataByKey(data, regionKey, productKey) {
+    let result
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            if (element.region === regionKey && element.product === productKey) {
+                result = element.sale
+                return result
+            }
+        }
+    }
 }
 function getData() {
     arr = [], arr2 = []
@@ -156,15 +189,16 @@ function createTable(data) {
             <td>12月</td>
         </tr>`
     let tbody = ``
-    if(arr2.length===1&&arr.length>=1) {
+    if (arr2.length === 1 && arr.length >= 1) {
         for (let index = 0; index < data.length; index++) {
-            tbody += `<tr>`
             const element = data[index];
+            tbody += `<tr data-region="${element.region}" data-product ="${element.product
+                }">`
             if (index === 0) {
                 tbody += `<td rowspan="${data.length}">${element.product}</td>`
             }
             for (const key in element) {
-                if (element.hasOwnProperty(key) && key !="product") {
+                if (element.hasOwnProperty(key) && key != "product") {
                     const element2 = element[key];
                     if (typeof element2 != "string") {
                         for (let index = 0; index < element2.length; index++) {
@@ -179,11 +213,12 @@ function createTable(data) {
             tbody += `</tr>`
         }
         tbody += `</table>`
-    }else if(arr.length===1&&arr2.length>1) {
+    } else if (arr.length === 1 && arr2.length > 1) {
 
         for (let index = 0; index < data.length; index++) {
-            tbody += `<tr>`
             const element = data[index];
+            tbody += `<tr data-region="${element.region}" data-product = "${element.product
+                }">`
             if (index === 0) {
                 tbody += `<td rowspan="${data.length}">${element.region}</td>`
             }
@@ -203,18 +238,19 @@ function createTable(data) {
             tbody += `</tr>`
         }
         tbody += `</table>`
-        
-    }else if(arr.length>1&&arr2.length>1) {
+
+    } else if (arr.length > 1 && arr2.length > 1) {
         let test
         for (let index = 0; index < data.length; index++) {
-            tbody += `<tr>`
             const element = data[index];
-            if (index === 0||index%arr.length===0) {
+            tbody += `<tr data-region="${element.region}" data-product = "${element.product
+                }">`
+            if (index === 0 || index % arr.length === 0) {
                 tbody += `<td rowspan="${arr.length}">${element.product}</td>`
                 test = element.product
             }
             for (const key in element) {
-                if (element.hasOwnProperty(key) && element[key]!=test) {
+                if (element.hasOwnProperty(key) && element[key] != test) {
                     const element2 = element[key];
                     if (typeof element2 != "string") {
                         for (let index = 0; index < element2.length; index++) {
@@ -229,10 +265,11 @@ function createTable(data) {
             tbody += `</tr>`
         }
         tbody += `</table>`
-    }else if (arr.length===1&&arr2.length===1) {
+    } else if (arr.length === 1 && arr2.length === 1) {
         for (let index = 0; index < data.length; index++) {
-            tbody += `<tr>`
             const element = data[index];
+            tbody += `<tr data-region="${element.region}" data-product = "${element.product
+                }">`
             for (const key in element) {
                 if (element.hasOwnProperty(key)) {
                     const element2 = element[key];
@@ -251,8 +288,6 @@ function createTable(data) {
         tbody += `</table>`
     }
 
-
-    
     return str + tbody
 }
 createChckBox(regionDom, sourceData, "region")
