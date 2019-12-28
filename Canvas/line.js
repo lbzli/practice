@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 let lineChart = {
     draw: function (root,data,str) {
         let canvasDom = root

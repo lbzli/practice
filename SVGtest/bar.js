@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 barChart = {
     createBar: function (root,data) {
         root.innerHTML = ""

@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 // let selectDom = document.querySelector("#region-select") 
 // let selectDom2 = document.querySelector("#region-select2")
 let sourceData = [{
@@ -113,14 +114,16 @@ function createChckBox(parentDom, data, category) {
         for (const key in trDomList) {
             if (trDomList.hasOwnProperty(key)) {
                 const element = trDomList[key];
-                element.addEventListener("mouseover", function (e) {
+                element.addEventListener("mouseover", function () {
 
                     if (this.getAttribute("data-region") != null) {
                         console.log(getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product")))
                         let datalist = getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product"))
                      console.log("这个是datalist"+datalist)
                         // console.log(document.querySelector("#mysvg"))
+                        // eslint-disable-next-line no-undef
                         lineChart.setData(document.querySelector("#tutorial"), datalist,this.getAttribute("data-region")+" "+this.getAttribute("data-product"))
+                        // eslint-disable-next-line no-undef
                         barChart.setData(document.querySelector("#mysvg"), datalist)
 
                         
@@ -171,7 +174,7 @@ function getData() {
     return result
 }
 function createTable(data) {
-    str = `<table border="solid" cellspacing="0" cellpadding="0">
+    let str = `<table border="solid" cellspacing="0" cellpadding="0">
         <tr>
             <td style="border-top: none;">商品</td>
             <td>地区</td>
