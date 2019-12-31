@@ -4,9 +4,60 @@ table {
 table td {
     border-bottom: none;
     border-left: none;
-    padding: 10px 20px;
     text-align: center;
-    border-color: #ccc;
+    line-height: 35px;
+    width: 90px;
+    height: 35px;
+    position: relative;
+}
+table .edit:hover::after {
+    content: "编辑";
+    position: absolute;
+    width: 24px;
+    font-size: 12px;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    right: 0px;
+    cursor: pointer;
+}
+input[type="text"] {
+    position: relative;
+    width: 100%;
+    height: 90%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #000000;
+}
+table td .show {
+    display: block;
+}
+table td .up {
+    z-index: 5;
+}
+table td span {
+    display: none;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    font-size: 12px;
+    color: #292525;
+    bottom: -20px;
+    border: 1px solid orange;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+table td span:nth-of-type(1) {
+    left: 15px;
+}
+table td span:nth-of-type(2) {
+    right: 15px;
 }
 .mydiv {
     width: 700px;
@@ -19,3 +70,4 @@ svg {
     width: 300px;
     height: 100%;
 }
+

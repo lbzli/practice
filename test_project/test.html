@@ -11,8 +11,52 @@
         table td {
             border-bottom: none;
             border-left: none;
-            padding: 10px 20px;
             text-align: center;
+            line-height: 35px;
+            width: 90px;
+            height: 35px;
+            position: relative;
+        }
+        table td:hover::after {
+            content: "编辑";
+            position: absolute;
+            width: 24px;
+            font-size: 12px;
+            top: 0;
+            bottom: 0;
+            margin: auto 0;
+            right: 0px;
+        }
+        input[type="text"] {
+            position: relative;
+            width: 100%;
+            height: 90%;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            outline: none;
+            border: none;
+            font-size: 16px;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        table td span {
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            font-size: 12px;
+            color: #292525;
+            bottom: -20px;
+            border: 1px solid orange;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        table td span:nth-of-type(1) {
+            left: 15px;
+        }
+        table td span:nth-of-type(2) {
+            right: 15px;
         }
     </style>
 </head>
@@ -20,7 +64,7 @@
 <body>
     <table border="solid" cellspacing="0" cellpadding="0">
         <tr>
-            <td style="border-top: none;">商品</td>
+            <td style="border-top: none;">商品 </td>
             <td>地区</td>
             <td>1月</td>
             <td>2月</td>
@@ -69,7 +113,7 @@
     <tr>
         <td>智能音箱</td>
         <td>华南</td>
-        <td>10</td>
+        <td><input type="text" name="" id="" value="这是" disabled="disabled"><span>取消</span><span>确认</span></td>
         <td>40</td>
         <td>10</td>
         <td>6</td>
@@ -91,6 +135,8 @@
     <input type="checkbox">第一个选项
     <input type="checkbox" checkbox-type="child">第二个选项
 
+
+    <script src="./test.js"></script>
 </body>
 
 </html>

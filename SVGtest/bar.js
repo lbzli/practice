@@ -1,3 +1,4 @@
+/* eslint-disable one-var */
 /* eslint-disable no-undef */
 barChart = {
     createBar: function (root,data) {
@@ -21,7 +22,7 @@ barChart = {
         mylineY.setAttribute('y2', 300 - my_stroke)
         mylineY.setAttribute('stroke', line_color)
         mylineY.setAttribute('stroke-width', my_stroke)
-        console.log(root)
+        // console.log(root)
         root.appendChild(mylineX)
         root.appendChild(mylineY)
 

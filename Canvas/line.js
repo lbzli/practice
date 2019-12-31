@@ -11,7 +11,7 @@ let lineChart = {
             ctx.lineTo(0, 300)
             ctx.lineTo(300, 300)
             ctx.lineWidth = 1
-            console.log(data)
+            // console.log(data)
             for (let index = 0; index < data.length; index++) {
                 const element = data[index];
                 let circle_X = 15 + index * 25
