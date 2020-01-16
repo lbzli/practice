@@ -13,6 +13,7 @@ table td {
 table .edit:hover::after {
     content: "编辑";
     position: absolute;
+    
     width: 24px;
     font-size: 12px;
     top: 0;

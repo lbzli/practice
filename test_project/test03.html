@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+    
+    <button id="d">D</button>
+    <button id="e">E</button>
+    <button id="f">F</button>
+    
+    
+    <div id="contABC"></div>
+    <div id="contDEF"></div>
+
+    <script>
+        const divDom1 = document.querySelector("#contABC")
+        const divDom2 = document.querySelector("#contDEF")
+        const btnList = document.querySelectorAll("button")
+        function getHash() {
+            return location.hash.replace("#","")
+        }
+
+        function render() {
+            if(getHash().length===0) {
+                location.hash = "|"
+            }else {
+                let content = getHash()
+                divDom1.innerHTML = content[0]
+                if(content.length===3)
+                divDom2.innerHTML = content[2]
+            }
+            
+
+        }
+
+        for (let i = 0; i < btnList.length; i++) {
+            btnList[i].addEventListener("click",function () {
+                if(divDom1.id.indexOf(this.innerHTML)!==-1) {
+                    if(getHash().length <= 1) {
+                        location.hash = this.innerHTML + getHash()
+                    }else {
+                        location.hash = getHash().replace(/[ABC]/,this.innerHTML)
+                    }
+                }else if (divDom2.id.indexOf(this.innerHTML)!==-1) {
+                    if (getHash().length <= 2) {
+                        location.hash = getHash() + this.innerHTML
+                    }else {
+                        location.hash = getHash().replace(/[DEF]/, this.innerHTML)
+                    }
+                }
+            })
+        }
+
+        window.onhashchange = render
+
+        render()
+    </script>
+</body>
+</html>

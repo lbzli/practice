@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable max-depth */
 /* eslint-disable no-sequences */
 /* eslint-disable no-eq-null */
@@ -115,27 +116,8 @@ function createChckBox(parentDom, data, category) {
         divDom.innerHTML = createTable(getData())
         //  编辑功能初始化
         editInit()
-
-        //  下面的是，鼠标经过某一行的时候，创建SVG和canvas
-        let trDomList = document.querySelectorAll("#table-wrapper tr")
-        for (const key in trDomList) {
-            if (trDomList.hasOwnProperty(key)) {
-                const element = trDomList[key];
-                element.addEventListener("mouseover", function () {
-
-                    if (this.getAttribute("data-region") !== null) {
-                        // console.log(getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product")))
-                        let datalist = getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product"))
-                        //  console.log("这个是datalist"+datalist)
-                        // console.log(document.querySelector("#mysvg"))
-                        // eslint-disable-next-line no-undef
-                        lineChart.setData(document.querySelector("#tutorial"), datalist, this.getAttribute("data-region") + " " + this.getAttribute("data-product"))
-                        // eslint-disable-next-line no-undef
-                        barChart.setData(document.querySelector("#mysvg"), datalist)
-                    }
-                })
-            }
-        }
+        //  SVG功能初始化
+        svgEnable()
 
     })
 
@@ -188,6 +170,10 @@ function getData() {
             arr2.push(element.value)
         }
     }
+    //  使用location来记录查询的信息
+    let hashcontent = arr.join("_")
+    hashcontent = hashcontent + "&" + arr2.join("_")
+    location.hash = hashcontent
     for (const key in sourceData) {
         if (sourceData.hasOwnProperty(key)) {
             const element = sourceData[key];
@@ -330,6 +316,33 @@ function createTable(data) {
     return str + tbody
 }
 
+/**
+ * 鼠标经过某一行时初始化SVG
+ *
+ * @return  {void}  void
+ */
+function svgEnable() {
+    //  下面的是，鼠标经过某一行的时候，创建SVG和canvas
+    let trDomList = document.querySelectorAll("#table-wrapper tr")
+    for (const key in trDomList) {
+        if (trDomList.hasOwnProperty(key)) {
+            const element = trDomList[key];
+            element.addEventListener("mouseover", function () {
+
+                if (this.getAttribute("data-region") !== null) {
+                    // console.log(getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product")))
+                    let datalist = getDataByKey(sourceData, this.getAttribute("data-region"), this.getAttribute("data-product"))
+                    //  console.log("这个是datalist"+datalist)
+                    // console.log(document.querySelector("#mysvg"))
+                    // eslint-disable-next-line no-undef
+                    lineChart.setData(document.querySelector("#tutorial"), datalist, this.getAttribute("data-region") + " " + this.getAttribute("data-product"))
+                    // eslint-disable-next-line no-undef
+                    barChart.setData(document.querySelector("#mysvg"), datalist)
+                }
+            })
+        }
+    }
+}
 
 /**
  * 编辑功能初始化
@@ -427,8 +440,74 @@ function noSave() {
         }
     }
 }
+// 将编码转换成字符
+function utf8ToChar(str) {
+    let iCode; let iCode1; let iCode2;
+    // eslint-disable-next-line radix
+    iCode = parseInt("0x" + str.substr(1, 2));
+    // eslint-disable-next-line radix
+    iCode1 = parseInt("0x" + str.substr(4, 2));
+    // eslint-disable-next-line radix
+    iCode2 = parseInt("0x" + str.substr(7, 2));
+    return String.fromCharCode(((iCode & 0x0F) << 12) | ((iCode1 & 0x3F) << 6) | (iCode2 & 0x3F));
+}
 
-
+// 将URL中的UTF-8字符串转成中文字符串
+function getCharFromUtf8(str) {
+    let cstr = "";
+    let nOffset = 0;
+    if (str === "")
+        return "";
+    str = str.toLowerCase();
+    nOffset = str.indexOf("%e");
+    if (nOffset === -1)
+        return str;
+    while (nOffset !== -1) {
+        cstr += str.substr(0, nOffset);
+        str = str.substr(nOffset, str.length - nOffset);
+        if (str === "" || str.length < 9)
+            return cstr;
+        cstr += utf8ToChar(str.substr(0, 9));
+        str = str.substr(9, str.length - 9);
+        nOffset = str.indexOf("%e");
+    }
+    return cstr + str;
+}
+function initPage() {
+    if(location.hash.replace("#","").length!==0) {
+        let str = getCharFromUtf8(location.hash.replace("#", ""))
+        arr = str.split("&")[0].split("_")
+        arr2 = str.split("&")[1].split("_")
+        //  重新获取符合条件的数据
+        let result=[]
+        for (const key in sourceData) {
+            if (sourceData.hasOwnProperty(key)) {
+                const element = sourceData[key];
+                if (arr.indexOf(element.region) !== -1 && arr2.indexOf(element.product) !== -1) {
+                    result.push(element)
+                }
+            }
+        }
+        //  复原按钮的选项
+        for (let i = 0; i < regionDom.children.length; i++) {
+            const element = regionDom.children[i];
+            if(arr.indexOf(element.value)!==-1) {
+                element.checked=true
+            }
+        }
+        for (let i = 0; i < productDom.children.length; i++) {
+            const element = productDom.children[i];
+            if (arr2.indexOf(element.value) !== -1) {
+                element.checked = true
+            }
+        }
+        divDom.innerHTML = createTable(result)
+        //  编辑功能初始化
+        editInit()
+        //  SVG功能初始化
+        svgEnable()
+    }
+}
 
 //* *****************************************************保存操作*****************************************************//
 
@@ -472,7 +551,7 @@ function setData(data, regionKey, productKey, newdata) {
 
 createChckBox(regionDom, sourceData, "region")
 createChckBox(productDom, sourceData, "product")
-
+initPage()
 
 //  下面是保存数据的操作
 let button = document.querySelector("button")
