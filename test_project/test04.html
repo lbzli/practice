@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="a">A</button>
+    <button id="b">B</button>
+    <button id="c">C</button>
+    <div id="cont"></div>
+    
+    <script>
+        const divdome = document.querySelector("#cont")
+        const divList = document.querySelectorAll("button")
+
+        function render() {
+            if(history.state!==null) {
+                divdome.innerHTML = history.state
+            }
+        }
+
+        for (let i = 0; i < divList.length; i++) {
+            divList[i].addEventListener("click", function () {
+                history.pushState(this.innerHTML,null)
+                divdome.innerHTML = this.innerHTML
+            })
+        }
+        window.onpopstate = render
+        render()
+    </script>
+</body>
+</html>
