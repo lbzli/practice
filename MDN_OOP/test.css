@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+div {
+    text-align: center;
+}
+ul {
+    list-style: none;
+}
+li {
+    list-style: none;
+}
+.connent {
+    width: 900px;
+    height: 550px;
+    background-color: pink;
+    margin: 0 auto;
+    position: relative;
+}
+.money {
+    width: 200px;
+    min-height: 100px;
+    background-color: azure;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.cook {
+    width: 250px;
+    height: 200px;
+    position: absolute;
+    background-color: cornflowerblue;
+    transition: all ease 5s;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+}
+.list {
+    width: 100px;
+    min-height: 150px;
+    position: absolute;
+    background-color: blueviolet;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.waiter {
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    left: 250px;
+    transition: all ease 0.5s;
+}
+.custmer {
+    width: 100px;
+    height: 100px;
+    background-color: brown;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    right: 0;
+}
